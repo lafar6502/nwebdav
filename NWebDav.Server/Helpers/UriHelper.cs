@@ -24,6 +24,7 @@ namespace NWebDav.Server.Helpers
 
         public static string GetDecodedPath(Uri uri)
         {
+            if (!uri.IsAbsoluteUri) return uri.OriginalString;
             return uri.LocalPath + Uri.UnescapeDataString(uri.Fragment);
         }
     }

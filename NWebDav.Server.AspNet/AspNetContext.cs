@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using System.Web;
 using NWebDav.Server.Http;
 
@@ -10,10 +11,12 @@ namespace NWebDav.Server.AspNet
         private readonly AspNetSession _session;
         private readonly AspNetResponse _response;
 
-        public AspNetContext(HttpContext httpContext)
+        public AspNetContext(HttpContext httpContext, string resourcePath = null)
         {
             // Assign properties
             _request = new AspNetRequest(httpContext.Request);
+            _request.ResourcePath = new Uri(resourcePath, UriKind.RelativeOrAbsolute);
+
             _session = new AspNetSession(httpContext);
             _response = new AspNetResponse(httpContext.Response);
         }

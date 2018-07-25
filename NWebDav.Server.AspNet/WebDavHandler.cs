@@ -8,6 +8,8 @@ namespace NWebDav.Server.AspNet
     {
         private readonly IWebDavDispatcher _webDavDispatcher;
 
+        public string HandlerPath { get; set; }
+
         public WebDavHandler(IWebDavDispatcher webDavDispatcher)
         {
             _webDavDispatcher = webDavDispatcher;
@@ -54,7 +56,22 @@ namespace NWebDav.Server.AspNet
         private Task ExecuteAsync(HttpContext context)
         {
             // Create the NWebDAV compatible context based on the ASP.NET context
-            var aspNetContext = new AspNetContext(context);
+            
+            var up = context.Request.Path;
+            if (!string.IsNullOrEmpty(context.Request.ApplicationPath) && up.StartsWith(context.Request.ApplicationPath, StringComparison.InvariantCultureIgnoreCase))
+            {
+                up = up.Substring(context.Request.ApplicationPath.Length);
+            }
+            if (!string.IsNullOrEmpty(this.HandlerPath))
+            {
+                if (up.StartsWith(this.HandlerPath, StringComparison.InvariantCulture))
+                {
+                    up = up.Substring(this.HandlerPath.Length);
+                }
+            }
+
+            var aspNetContext = new AspNetContext(context, up);
+
 
             // Dispatch the request. Note we don't use the ConfigureAwait(false), 
             // because we want to retain the HTTP context inside the controller.

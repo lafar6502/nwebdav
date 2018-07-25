@@ -27,6 +27,8 @@ namespace NWebDav.Server.AspNetCore
             public IEnumerable<string> Headers => _request.Headers.Keys;
             public string GetHeaderValue(string header) => _request.Headers[header].FirstOrDefault();
             public Stream Stream => _request.Body;
+
+            public Uri ResourcePath => throw new NotImplementedException();
         }
     }
 }

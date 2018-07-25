@@ -28,6 +28,8 @@ namespace NWebDav.Server.AspNet
             public string RemoteEndPoint => _httpRequest.UserHostName;
             public IEnumerable<string> Headers => _httpRequest.Headers.AllKeys;
             public Stream Stream => _httpRequest.InputStream;
+
+            public Uri ResourcePath { get; set; }
         }
     }
 }

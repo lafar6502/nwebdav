@@ -15,6 +15,7 @@ namespace NWebDav.Sample.AspNet
 
         public DiskWebDavHandlerFactory() : base(GetWebDavDispatcher())
         {
+            HandlerPath = "/webdav";
         }
 
         private static IWebDavDispatcher GetWebDavDispatcher()

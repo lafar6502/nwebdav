@@ -40,6 +40,11 @@ namespace NWebDav.Server.Http
         Uri Url { get; }
 
         /// <summary>
+        /// Webdav resource path (after stripping the url prefix)
+        /// </summary>
+        Uri ResourcePath { get; }
+
+        /// <summary>
         /// Gets the remote end point of the request.
         /// </summary>
         /// <value>

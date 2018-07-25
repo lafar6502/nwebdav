@@ -24,8 +24,9 @@ namespace NWebDav.Server.Stores
         public string BaseDirectory { get; }
         public ILockingManager LockingManager { get; }
 
-        public Task<IStoreItem> GetItemAsync(Uri uri, IHttpContext httpContext)
+        public Task<IStoreItem> GetItemAsync(Uri uri, IHttpContext _)
         {
+            
             // Determine the path from the uri
             var path = GetPathFromUri(uri);
 
@@ -54,8 +55,11 @@ namespace NWebDav.Server.Stores
 
         private string GetPathFromUri(Uri uri)
         {
+            var urx = new Uri(uri.PathAndQuery, UriKind.RelativeOrAbsolute);
+
+            var u0 = UriHelper.GetDecodedPath(uri);
             // Determine the path
-            var requestedPath = UriHelper.GetDecodedPath(uri).Substring(1).Replace('/', Path.DirectorySeparatorChar);
+            var requestedPath = u0.Substring(1).Replace('/', Path.DirectorySeparatorChar);
 
             // Determine the full path
             var fullPath = Path.GetFullPath(Path.Combine(BaseDirectory, requestedPath));
